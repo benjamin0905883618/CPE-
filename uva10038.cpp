@@ -1,42 +1,43 @@
 #include<iostream>
 using namespace std;
 
-int num;
-int data[3001];
-int check[3001];
-int check_jolly(){
-    for(int i = 1;i < num;i++){
-        int check_value = data[i] - data[i-1];
-        if(check_value < 0){
-            check_value = - check_value;
-            check[check_value] += 1;
-            if(check[check_value] > 1 || check_value >= num)
-                return 0;
-        }
-        else if(check_value > 0){
-            check[check_value] += 1;
-            if(check[check_value] > 1 || check_value >= num)
-                return 0;
-        }
-        else
-            return 0;
-
-    }
-    return 1;
-}       
 
 int main(){
-    while(cin >> num){
-        for(int i = 0;i < num;i++){
-            cin >> data[i];
-            check[i] = 0;
+    int number;
+    while(cin >> number){
+        int result = 1;
+        int *arr = new int [number];
+        for(int i = 0;i < number; i++)
+            arr[i] = 0;
+        int pre;
+        cin >> pre;
+        int temp;
+        for(int i = 1; i < number; i++){
+            cin >> temp;
+            //cout << "pre : " << pre << "temp : " << temp << endl;
+            int check;
+            if(temp > pre)
+                check = temp - pre;
+            else
+                check = pre - temp;
+
+            if(check > number - 1){
+                result = 0;
+                //cout << "case 1 "<< endl;
+            }
+            else if(arr[check] == 1){
+                result = 0;
+                //cout << "case 2 " << endl;
+            }
+            else{
+                arr[check]++;
+            }
+
+            pre = temp;
         }
-        int answer = check_jolly();
-        if(answer == 0)
-            cout << "Not jolly" << endl;
-        else
+        if(result == 1)
             cout << "Jolly" << endl;
-
+        else
+            cout << "Not jolly" << endl;
     }
-
 }
